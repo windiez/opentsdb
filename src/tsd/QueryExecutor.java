@@ -223,8 +223,8 @@ public class QueryExecutor {
    */
   public void execute(final HttpQuery query) {
     http_query = query;
-    final QueryStats query_stats = 
-        new QueryStats(query.getRemoteAddress(), ts_query, query.getHeaders());
+    final QueryStats query_stats =
+        new QueryStats(query.getRemoteAddress(), ts_query, query.getPrintableHeaders());
     ts_query.setQueryStats(query_stats);
     
     /**

@@ -414,7 +414,16 @@ class PutDataPointRpc implements TelnetRpc, HttpRpc {
           illegal_arguments.incrementAndGet();
           continue;
         }
-        
+
+        // Apply tenant routing tags from the HTTP request header, then
+        // merge in per-datapoint tags to allow dimension refinement.
+        if (!query_tags.isEmpty()) {
+          final HashMap<String, String> merged =
+              new HashMap<String, String>(query_tags);
+          merged.putAll(dp.getTags());
+          dp.setTags(merged);
+        }
+
         // TODO - refactor the add calls someday or move some of this into the 
         // actual data point class.
         final Deferred<Boolean> deferred;

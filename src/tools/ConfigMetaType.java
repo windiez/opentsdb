@@ -25,9 +25,9 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import java.net.URLClassLoader;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.loading.MLet;
 
 import net.opentsdb.tools.ConfigArgP.ConfigurationItem;
 
@@ -546,7 +546,7 @@ public enum ConfigMetaType implements ArgValueValidator {
     public void validate(final ConfigurationItem citem) {
       super.validate(citem);
       Set<URL> urls = buildURLSet(citem);
-      final MLet classLoader = new MLet(urls.toArray(new URL[urls.size()]));
+      final URLClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
       try {
         final ObjectName on = new ObjectName(String.format(CLASSLOADER_OBJECTNAME, citem.getKey()));
         if(server.isRegistered(on)) {

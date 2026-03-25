@@ -27,6 +27,9 @@ public class TagVRegexFilter extends TagVFilter {
   /** Name of this filter */
   final public static String FILTER_NAME = "regexp";
   
+  /** Maximum allowed filter pattern length to prevent excessive parsing overhead */
+  static final int MAX_FILTER_LEN = 256;
+
   /** The compiled pattern */
   final Pattern pattern;
   
@@ -42,6 +45,10 @@ public class TagVRegexFilter extends TagVFilter {
     // we have to have at least one character.
     if (filter == null || filter.length() < 1) {
       throw new IllegalArgumentException("Filter cannot be null or empty");
+    }
+    if (filter.length() > MAX_FILTER_LEN) {
+      throw new IllegalArgumentException("Filter pattern exceeds maximum "
+          + "length of " + MAX_FILTER_LEN + " characters");
     }
     pattern = Pattern.compile(filter);
   }
