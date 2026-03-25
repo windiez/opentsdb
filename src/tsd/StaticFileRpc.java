@@ -42,9 +42,9 @@ final class StaticFileRpc implements HttpRpc {
     if (uri.length() < 3) {  // Must be at least 3 because of the "/s/".
       throw new BadRequestException("URI too short <code>" + uri + "</code>");
     }
-    // Cheap security check to avoid directory traversal attacks.
-    // TODO(tsuna): This is certainly not sufficient.
-    if (uri.indexOf("..", 3) > 0) {
+    // Security check to prevent directory traversal attacks.
+    // Rejects URIs containing literal ".." or common URL-encoded equivalents.
+    if (uri.contains("..") || uri.contains("%2e%2e") || uri.contains("%2E%2E")) {
       throw new BadRequestException("Malformed URI <code>" + uri + "</code>");
     }
 

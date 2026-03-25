@@ -200,6 +200,7 @@ tsdb_SRC := \
 	src/tree/TreeBuilder.java	\
 	src/tree/TreeRule.java	\
 	src/tsd/AbstractHttpQuery.java	\
+	src/tsd/AdminRpc.java	\
 	src/tsd/AnnotationRpc.java	\
 	src/tsd/BadRequestException.java	\
 	src/tsd/ConnectionManager.java	\

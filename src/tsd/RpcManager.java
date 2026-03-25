@@ -285,6 +285,7 @@ public final class RpcManager {
     
     if (enableApi) {
       http.put("api/aggregators", aggregators);
+      http.put("api/admin", new AdminRpc());
       http.put("api/config", new ShowConfig());
       http.put("api/dropcaches", dropcaches);
       http.put("api/stats", stats);
