@@ -16,8 +16,7 @@ to identify areas that merit deeper validation before release or wider internal 
 
 - OpenTSDB is deployed behind one or more reverse proxies.
 - Some environments expose HTTP API, query UI, and diagnostics endpoints to internal users.
-- Operators may enable optional compatibility features and custom header-based behavior via
-  configuration.
+- Operators may enable optional compatibility features via configuration.
 - We did not assume an authenticated admin boundary unless it was clearly enforced in the code
   path under review.
 
@@ -35,9 +34,9 @@ to justify a deeper review and likely remediation.
 ### 1. Possible sensitive-data exposure through diagnostics / query metadata
 
 We found at least one path where request metadata is retained for query statistics and later
-exposed through diagnostics-oriented output. During the initial pass, we only saw one class of
-header being explicitly redacted. We did not complete a full review of which headers may be
-captured, persisted in memory, or returned to clients.
+exposed through diagnostics-oriented output. We did not complete a full review of which fields may
+be captured, persisted in memory, or returned to clients - and in particular whether the
+redaction applied is sufficient for all deployment contexts.
 
 **Why this matters:**
 - In proxy deployments, request headers may carry bearer tokens, admin tokens, API gateway
@@ -130,7 +129,7 @@ constrained in all deployments.
 
 - Telnet RPC surface
 - Plugin loading / plugin path trust assumptions
-- Search / query filter performance abuse
+- HBase/ZooKeeper client error handling and retry behavior
 - Reverse-proxy trust model for client IP attribution
 - CORS and cross-origin deployment assumptions
 - Configuration-loading behavior in operator tooling
